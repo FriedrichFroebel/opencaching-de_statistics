@@ -1,0 +1,56 @@
+\documentclass[%
+    border=2mm
+]{standalone}
+
+% Input and font settings.
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}  % Sans serif.
+
+% Plotting.
+\usepackage{pgfplots}
+\usetikzlibrary{positioning,calc}
+\pgfplotsset{compat=1.15}
+
+% Use sans-serif font for the plots.
+\usepackage[eulergreek]{sansmath}
+\pgfplotsset{%
+  tick label style={font=\sansmath\sffamily},
+  every axis label={font=\sansmath\sffamily},
+  legend style={font=\sansmath\sffamily},
+  label style={font=\sansmath\sffamily}
+}
+
+% Format numbers.
+\usepackage[%
+    detect-all,
+]{siunitx}
+
+% Load the pie chart configuration.
+\input{pie-chart.sty}
+
+\begin{document}
+
+\begin{tikzpicture}
+    \path[%
+        /piechart/.cd,
+        % Determined by testing it manually using 10 entries.
+        legend location={($(3,3)+(.5,-.875)$)},
+        value list={
+            \BLOCK{ for entry in counts[:-1] }
+                \VAR{ "%0.1f" | format(entry.count_relative) }/{(\num{\VAR{entry.count_absolute}}) \VAR{entry.german_name}},
+            \BLOCK{ endfor }
+            \BLOCK{ set entry = counts[-1] }
+                \VAR{ "%0.1f" | format(entry.count_relative) }/{(\num{\VAR{entry.count_absolute}}) \VAR{entry.german_name}}
+        },
+        diagram,
+    ];
+    % Diagram title.
+    \node[anchor=south,yshift=5mm,align=center] at (current bounding box.north) {\large Verteilung der Cachearten auf Opencaching.de \\ \footnotesize (\num{\VAR{total_count}} aktive Geocaches)};
+    % Diagram footer.
+    \node[anchor=north,yshift=-5mm,align=center,text=black!40] at (current bounding box.south) {\footnotesize Daten von www.opencaching.de $~\bullet~$ Erstellt am \VAR{created}};
+\end{tikzpicture}
+
+\end{document}

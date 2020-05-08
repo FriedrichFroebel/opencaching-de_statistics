@@ -1,0 +1,92 @@
+% Create pie charts using PGF/TikZ.
+%
+% This file is based upon the code provided by Tarass in
+% https://tex.stackexchange.com/a/180371/.
+% It has been reformatted while increasing verbosity. Some unneeded features have been
+% removed or replaced by hard-coded versions.
+%
+% The code inside this file is available under the terms of the Creative Commons
+% Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)
+%
+% For a copy of the license, see https://creativecommons.org/licenses/by-sa/4.0/.
+
+% The color palette to use.
+\colorlet{color0}{blue!60}
+\colorlet{color1}{cyan!60}
+\colorlet{color2}{yellow!60}
+\colorlet{color3}{orange!60}
+\colorlet{color4}{red!60}
+\colorlet{color5}{blue!60!cyan!60}
+\colorlet{color6}{cyan!60!yellow!60}
+\colorlet{color7}{red!60!cyan!60}
+\colorlet{color8}{red!60!blue!60}
+\colorlet{color9}{orange!60!cyan!60}
+
+\makeatletter
+\pgfkeys{/piechart/.cd,
+    % List of name/value.
+    value list/.store in=\piechart@valueList,
+    % Radius of the diagram.
+    radius/.store in=\piechart@radius,
+    radius=3cm,
+    % Location of the legend.
+    legend location/.store in=\piechart@legendLocation,
+    legend location={($(\piechart@radius,\piechart@radius)+(.5,-.7)$)},   
+    % Position of the node in the sector.
+    % 0 center, 1 on the edge, 1.++ external
+    factor/.store in=\piechart@factor,
+    factor=.8,
+    % Angle limit in degrees to hide the percent values for.
+    minimum angle/.store in=\piechart@minimumAngle,
+    minimum angle=4,
+    % Code of the diagram.
+    diagram/.code={
+        % Calculation of the sum.
+        \pgfmathsetmacro\piechart@sum{0}
+        \foreach \i/\y in \piechart@valueList {\xdef\piechart@sum{\piechart@sum+\i}}  
+        \pgfmathsetmacro\piechart@sum{\piechart@sum}
+        \pgfmathsetmacro\piechart@coefficient{360/\piechart@sum}
+
+        % Beginning of the first sector.
+        \xdef\piechart@angleStart{0}
+
+        % Main loop.
+        \foreach \value/\name [count=\index from 0] in \piechart@valueList {%
+            % Calculation of the current angle.
+            \pgfmathsetmacro\angleCurrent{\value*\piechart@coefficient};
+    
+            % Superior limit of the sector.
+            \pgfmathsetmacro\piechart@angleEnd{\piechart@angleStart+\angleCurrent};
+    
+            % Mean angle.
+            \pgfmathsetmacro\angleMean{(\piechart@angleStart+\piechart@angleEnd)/2};        
+    
+            % Color.
+            \pgfmathtruncatemacro\@k{mod(\index,10)}
+            \def\currentColor{color\@k}
+
+            % Drawing of the sector.
+            \draw[%
+                fill=\currentColor,
+                line join=round,
+                shift={(\angleMean:0)},
+            ]
+                (0,0) -- (\piechart@angleStart:\piechart@radius) arc (\piechart@angleStart:\piechart@angleEnd:\piechart@radius) node[midway] (DC\index) {} -- cycle;
+
+            % Node on the current sector with the percent value.
+            \pgfmathsetmacro\showPercent{\angleCurrent < \piechart@minimumAngle ? 0 : 1};
+            \ifnum\showPercent=1
+                \node[align=center] at ($(0,0)!\piechart@factor!(DC\index)$) {\footnotesize \SI{\value}{\percent}};
+            \fi
+    
+            % Lower limit of the next sector.
+            \xdef\piechart@angleStart{\piechart@angleEnd};
+    
+            % The legend.
+            \begin{scope}[shift=\piechart@legendLocation]
+                \draw[fill=\currentColor] (0,-.5*\index) rectangle ++(.25,.25) ++(0,-.15) node[align=left,anchor=west] {\strut\name};
+            \end{scope}
+        }
+    }
+}
+\makeatother
