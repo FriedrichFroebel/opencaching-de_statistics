@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-###########################################
+#########################################################################
 # This file is a modified version of the original version residing at
 # https://github.com/flopp/safari/blob/80a77a7fc1dd63d8c33cec92e5e93384d48c7938/py/query.py
 #
@@ -103,7 +103,7 @@ def download_query_alternative(user, password, queryid, batch_size=500):
 
     The original implementation only used a batch size of 20 as this allowed for using
     plain LOC files. Unfortunately this is a bit slow and causes more load on the web
-    server to due a lot of small requests.
+    server due to a lot of small requests.
 
     With the modified implementation, the batch size can be chosen by the user. This
     is accomplished by using an in-memory extraction of the downloaded ZIP file.
@@ -121,7 +121,7 @@ def download_query_alternative(user, password, queryid, batch_size=500):
 
     :param batch_size: The batch size to use for the requests. This must at least be 1
                        and cannot exceed 500. The upper bound is due to the limits used
-                       by Opencaching.de.
+                       by the Opencaching.de site.
     :type batch_size: int
 
     :return: The list of cache codes retrieved from the query.
