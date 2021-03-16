@@ -172,7 +172,7 @@ def download_query_alternative(user, password, queryid, batch_size=500):
         # Check if the request has been successful.
         # If there has been an error, return the list of OC codes found until now.
         if response.status_code != 200:
-            print(f"-- Terminating due to bad status code: {r.status_code}")
+            print(f"-- Terminating due to bad status code: {response.status_code}")
             break
 
         # Check if we got a ZIP file (in fact this should always be the case).

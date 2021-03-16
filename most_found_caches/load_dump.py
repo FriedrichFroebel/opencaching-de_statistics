@@ -40,7 +40,10 @@ cursor.execute(DATABASE_CREATION_QUERY)
 connection.commit()
 
 # Prepare the query to insert the cache data.
-query = "INSERT INTO `found_counts` (`code`,`lat`,`lon`,`status`,`cache_type`) VALUES (?,?,?,?,?);"
+query = (
+    "INSERT INTO `found_counts` (`code`,`lat`,`lon`,`status`,`cache_type`)"
+    "VALUES (?,?,?,?,?);"
+)
 
 # Load the list of data files from the fulldump.
 dump_path = Path(configuration.FULLDUMP_DIRECTORY)

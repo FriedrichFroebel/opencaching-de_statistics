@@ -79,7 +79,9 @@ query = f"""
 
 result_count = 0
 
-with open(output_path / configuration.OUTPUT_FILE, mode="w", encoding="utf8") as outfile:
+with open(
+    output_path / configuration.OUTPUT_FILE, mode="w", encoding="utf8"
+) as outfile:
     # Write the header row.
     outfile.write("code,type,founds\n")
 
