@@ -113,7 +113,7 @@ for key in sorted(type_counts, key=type_counts.get, reverse=True):
     counts.append(instance)
 
 # Create the output directory.
-output_path = Path("output")
+output_path = Path("../output")
 if not output_path.exists():
     output_path.mkdir(parents=True)
 

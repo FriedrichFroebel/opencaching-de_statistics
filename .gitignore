@@ -1,12 +1,13 @@
 # Custom files
 *.db
-/fulldump*
+fulldump*
 *.json
 *.tar.bz2
 *.tar.gz
 *.tex
 configuration.py
 *.png
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
