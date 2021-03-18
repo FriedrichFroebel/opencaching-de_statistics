@@ -15,7 +15,7 @@ FULLDUMP_DIRECTORY = "fulldump_20200101-1200"
 # The path to the `plz-gebiete.shp` file.
 PLZ_GEBIETE_SHP_PATH = "plz-gebiete.shp/plz-gebiete.shp"
 
-# The path to the `zuordnung_plz_ort.csv.csv` file.
+# The path to the `zuordnung_plz_ort.csv` file.
 ZUORDNUNG_PLZ_ORT_PATH = "zuordnung_plz_ort.csv"
 
 # Whether to include only active caches.
