@@ -30,11 +30,11 @@ if configuration.RESTRICT_REGION:
         mapping_plz_bundesland = {row[2]: row[3] for row in reader}
 
     # Filter for the selected region.
-    plzs = [
+    plzs = {
         plz
         for plz, bundesland in mapping_plz_bundesland.items()
         if bundesland == configuration.RESTRICT_REGION
-    ]
+    }
 
     # Only keep the geometries for the selected region.
     # Afterwards cache the shape data to avoid repeated conversions.
@@ -49,8 +49,7 @@ if configuration.RESTRICT_REGION:
         point = Point(lon, lat)
         for geometry in geometries_filtered:
             if point.within(geometry.boundary):
-                plz = geometry.record[0]
-                return plz in plzs
+                return True
         return False
 
 
