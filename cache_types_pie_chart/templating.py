@@ -24,7 +24,7 @@ JINJA_ENVIRONMENT_LATEX = jinja2.Environment(
     trim_blocks=True,
     lstrip_blocks=True,
     autoescape=False,
-    loader=jinja2.FileSystemLoader(str(Path.cwd() / "templates")),
+    loader=jinja2.FileSystemLoader(str(Path.cwd() / ".." / "templates")),
 )
 
 

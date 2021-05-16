@@ -6,6 +6,7 @@ Pie chart with the distribution of the different cache types across all the not
 archived caches.
 """
 
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 import sqlite3
@@ -50,66 +51,45 @@ connection.close()
 total_count = sum(type_counts.values())
 
 
+@dataclass(frozen=True)
 class CacheType:
     """
     Container for the cache type data.
     """
 
-    database_name = None
+    database_name: str
     """
     The name of the cache type inside the database.
-
-    :type: :class:`str`
     """
 
-    german_name = None
+    german_name: str
     """
     The German name of the cache type.
-
-    :type: :class:`str`
     """
 
-    count_absolute = 0
+    count_absolute: int
     """
     The absolute number of caches with this type.
-
-    :type: :class:`int`
     """
 
-    count_relative = 0
+    count_relative: float
     """
     The relative amount of caches with this type in percent.
-
-    :type: :class:`float`
     """
 
-    def __init__(self, database_name, german_name, count_absolute, count_relative):
-        """
-        :param database_name: The name inside the database to set.
-        :type database_name: str
 
-        :param german_name: The German name to set.
-        :type german_name: str
-
-        :param count_absolute: The absolute number to set.
-        :type count_absolute: int
-
-        :param count_relative: The relative amount in percent to set.
-        :type count_relative: float
-        """
-        self.database_name = database_name
-        self.german_name = german_name
-        self.count_absolute = count_absolute
-        self.count_relative = count_relative
-
-
-# Determine the relative values and create the ouput list with the cache types being
+# Determine the relative values and create the output list with the cache types being
 # in ascending order sorted by their popularity.
 counts = []
 for key in sorted(type_counts, key=type_counts.get, reverse=True):
     value = type_counts.get(key)
     value_relative_percent = value / total_count * 100
-    instance = CacheType(key, CACHE_TYPE_NAMES[key], value, value_relative_percent)
+    instance = CacheType(
+        database_name=key,
+        german_name=CACHE_TYPE_NAMES[key],
+        count_absolute=value,
+        count_relative=value_relative_percent,
+    )
     counts.append(instance)
 
 # Create the output directory.
