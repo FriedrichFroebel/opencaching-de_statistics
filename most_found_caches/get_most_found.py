@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 Get the most found caches, allowing additional filters for the status and the German
@@ -11,20 +10,19 @@ import sqlite3
 
 import configuration
 
-
 if configuration.RESTRICT_REGION:
     # The restrictions are implemented by checking the PLZ of the current coordinate.
 
     import csv
 
     import shapefile
-    from shapely.geometry import Point, shape as Shape
+    from shapely.geometry import Point, shape as Shape  # noqa: N812
 
     # Load the data files.
     shp = shapefile.Reader(configuration.PLZ_GEBIETE_SHP_PATH)
 
     with open(
-        configuration.ZUORDNUNG_PLZ_ORT_PATH, mode="r", encoding="utf8"
+        configuration.ZUORDNUNG_PLZ_ORT_PATH, encoding="utf8"
     ) as infile:
         reader = csv.reader(infile)
         mapping_plz_bundesland = {row[2]: row[3] for row in reader}
@@ -43,7 +41,7 @@ if configuration.RESTRICT_REGION:
         geometry for geometry in geometries if geometry.record[0] in plzs
     ]
     for geometry in geometries_filtered:
-        setattr(geometry, "boundary", Shape(geometry.shape))
+        geometry.boundary = Shape(geometry.shape)
 
     def is_in_region(lat, lon):
         point = Point(lon, lat)
@@ -51,7 +49,6 @@ if configuration.RESTRICT_REGION:
             if point.within(geometry.boundary):
                 return True
         return False
-
 
 else:
     # No restrictions requested, so provide a dummy implementation.

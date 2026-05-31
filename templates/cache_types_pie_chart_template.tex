@@ -48,7 +48,7 @@
         diagram,
     ];
     % Diagram title.
-    \node[anchor=south,yshift=5mm,align=center] at (current bounding box.north) {\large Verteilung der Cachearten auf Opencaching.de \\ \footnotesize (\num{\VAR{total_count}} aktive Geocaches)};
+    \node[anchor=south,yshift=5mm,align=center] at (current bounding box.north) {\large Verteilung der Cachearten auf Opencaching.de \\ \footnotesize (\num{\VAR{total_count}} \BLOCK{ if active_only }aktive \BLOCK{ endif }Geocaches)};
     % Diagram footer.
     \node[anchor=north,yshift=-5mm,align=center,text=black!40] at (current bounding box.south) {\footnotesize Daten von www.opencaching.de $~\bullet~$ Erstellt am \VAR{created}};
 \end{tikzpicture}

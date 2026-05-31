@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 Pie chart with the distribution of the different cache types across all the not
@@ -13,7 +12,6 @@ import sqlite3
 
 import configuration
 import templating
-
 
 # Based upon
 # https://github.com/OpencachingDeutschland/oc-server3/blob/ff940ae404b19ef5b70ef8d21a55a8d74e731eb3/sql/static-data/cache_type.sql
@@ -37,10 +35,11 @@ CACHE_TYPE_NAMES = {
 connection = sqlite3.connect(f"file:{configuration.DATABASE_FILE}?mode=ro", uri=True)
 
 # Retrieve the statistics from the database.
-query = (
-    "SELECT cache_type, COUNT(*) AS `count` FROM opencaches "
-    + 'WHERE status != "Archived" GROUP BY cache_type;'
-)
+query = "SELECT cache_type, COUNT(*) AS `count` FROM opencaches "
+if not configuration.ACTIVE_ONLY:
+    query += 'WHERE status != "Archived" '
+query += "GROUP BY cache_type;"
+
 type_counts = {}
 for row in connection.execute(query):
     cache_type, count = row
@@ -108,6 +107,7 @@ parameters = {
     "total_count": total_count,
     "counts": counts,
     "created": created_reformatted,
+    "active_only": configuration.ACTIVE_ONLY,
 }
 
 # Render the content inside the Jinja2 template.

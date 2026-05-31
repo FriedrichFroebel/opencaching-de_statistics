@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 #########################################################################
 # This file is a modified version of the original version residing at

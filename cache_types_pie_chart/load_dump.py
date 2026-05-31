@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf8 -*-
 
 """
 Load the data from a fulldump into a database file.
@@ -11,7 +10,6 @@ import sqlite3
 
 import configuration
 import opencaching_de_search_query
-
 
 """
 The query to create the tables inside the database file.

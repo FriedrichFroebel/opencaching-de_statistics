@@ -8,7 +8,7 @@ This directory contains the scripts required to produce a pie chart with the dis
 
 Make sure you have
 
-* Python 3 (at least version 3.7)
+* Python 3 (recent version)
 * [Jinja2](https://palletsprojects.com/p/jinja/)
 * [requests](https://github.com/requests/requests)
 * [make](https://www.gnu.org/software/make/)

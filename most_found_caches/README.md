@@ -8,7 +8,7 @@ This directory contains the scripts required to get the most found caches, allow
 
 Make sure you have
 
-* Python 3 (at least version 3.6)
+* Python 3 (recent version)
 * [pyshp](https://github.com/GeospatialPython/pyshp)
 * [Shapely](https://github.com/shapely/shapely)
 
